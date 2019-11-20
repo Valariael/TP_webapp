@@ -31,10 +31,12 @@
     <script src="js/app.js" defer></script>
     <link rel="manifest" href="manifest.json">
 	<script>
-	if('serviceWorker' in navigator) {
-		console.log("before register");
-	    navigator.serviceWorker.register('./sw.js');
-		console.log("after register");
+	window.onload = function() {
+		if('serviceWorker' in navigator) {
+			console.log("before register");
+		    navigator.serviceWorker.register('./sw.js');
+			console.log("after register");
+		};
 	};
 	</script>
 </head>
