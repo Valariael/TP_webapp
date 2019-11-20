@@ -24,6 +24,12 @@ var appShellFiles = [
   './icons/icon-256.png',
   './icons/icon-512.png'
 ];
+var editableFiles = [
+  './index.html',
+  './styles.css',
+  './app.js',
+  './produits.csv'
+];
 
 self.addEventListener('install', (e) => {
   console.log('[Service Worker] Install');
@@ -35,19 +41,42 @@ self.addEventListener('install', (e) => {
   );
 });
 
-self.addEventListener('fetch', (e) => {
-  e.respondWith(
-    caches.match(e.request).then((r) => {
-          console.log('[Service Worker] Fetching resource: '+e.request.url);
-      return r || fetch(e.request).then((response) => {
-                return caches.open(cacheName).then((cache) => {
-          console.log('[Service Worker] Caching new resource: '+e.request.url);
-          cache.put(e.request, response.clone());
-          return response;
-        });
-      });
-    })
-  );
+self.addEventListener('fetch', function(evt) {
+
+    var fichier = evt.request.url.substr(evt.request.url.lastIndexOf('/')+1);
+    
+    // if requested on an updatable content, load it from the network and cache it
+    if (editableFiles.some(function(uc) { return evt.request.url.indexOf(uc) >= 0; })) {
+        evt.respondWith(
+            caches.open(cacheName).then(function(cache) {
+                console.log("[Service worker] Trying to fetch from network", fichier);
+                return fetch(evt.request)
+                    .then(function (response) {
+                    // If the response was OK, clone it and store it in the cache.
+                    if (response.status === 200) {
+                        console.log("[Service worker] --> Network available, caching latest version", fichier);
+                        cache.put(evt.request.url, response.clone());
+                    }
+                    return response;
+                }).catch(function (err) {
+                    // Network request failed, try to get it from the cache.
+                    console.log("[Service worker] --> Network unavailable, using cached version", fichier);
+                    return cache.match(evt.request);
+                });
+            }));
+        return;
+    }
+    
+    // otherwise load from cache by default, or fetch it if not present (and update cache)
+    console.log("[Service worker] --> Loading from cache (if present)", fichier);
+    evt.respondWith(
+        caches.open(cacheName).then(function(cache) {
+            return cache.match(evt.request)
+                .then(function(response) {
+                    return response || fetch(evt.request);
+            })
+        })
+    );
 });
 
 self.addEventListener('activate', (e) => {
