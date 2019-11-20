@@ -2,11 +2,6 @@
 
 const TRANMISSION_URL = "https://dept-info.univ-fcomte.fr/licence/SAMP/";
 
-if('serviceWorker' in navigator) {
-	console.log("before register");
-    navigator.serviceWorker.register('./sw.js');
-	console.log("after register");
-};
 
 /************************************************************************
  *                                                                      *

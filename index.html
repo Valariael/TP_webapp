@@ -93,5 +93,12 @@
     </div>
         
 </body>
+<script>
+if('serviceWorker' in navigator) {
+	console.log("before register");
+    navigator.serviceWorker.register('./sw.js');
+	console.log("after register");
+};
+</script>
 
 </html>
