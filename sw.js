@@ -1,5 +1,6 @@
 var cacheName = 'TP_webapp';
 var appShellFiles = [
+  '/',
   './index.html',
   './index.js',
   './manifest.json',
