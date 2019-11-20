@@ -9,7 +9,6 @@ var appShellFiles = [
   '/js/DecoderWorker.js',
   '/js/exif.js',
   '/js/job.js',
-  '/js/sw.js',
   '/style.css',
   '/favicon.ico',
   '/images/barcode-scanner.png',
