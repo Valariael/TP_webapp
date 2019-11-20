@@ -27,12 +27,6 @@ var appShellFiles = [
   '/icons/icon-512.png'
 ];
 
-/*var images = [];
-for(var i=0; i<games.length; i++) {
-  images.push('data/img/'+games[i].slug+'.jpg');
-}
-var contentToCache = appShellFiles.concat(images);*/
-
 self.addEventListener('install', (e) => {
   console.log('[Service Worker] Install');
   e.waitUntil(
