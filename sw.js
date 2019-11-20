@@ -10,7 +10,6 @@ var appShellFiles = [
   '/js/exif.js',
   '/js/job.js',
   '/style.css',
-  '/favicon.ico',
   '/images/barcode-scanner.png',
   '/images/icon-cart.png',
   '/images/icon-setup.png',
